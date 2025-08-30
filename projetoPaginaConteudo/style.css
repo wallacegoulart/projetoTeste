@@ -71,3 +71,18 @@ p{
     font-size:20px;
     line-height: 32px;
 }
+
+figure{
+    padding:0;
+    margin: 40px 0;
+    font-size:12px;
+}
+
+figure>img{
+    width: 100%;
+}
+
+.footer{
+    background-color: #333;
+    height: 100px;
+}
