@@ -1,0 +1,582 @@
+Passo a Passo do curso JavaScript: construindo páginas dinâmicas 
+
+
+Aula 01:
+//Demonstração de como eu consigo acessar o HTML pelo JS usando o DOOM:
+//Objetivo do projeto uma lista de compras: 
+//1)digitar no input o que vai comprar
+//2)clicar no botão salvar item 
+//3) esse item ser incorporado na lista ( dentro do HTML ) 
+
+
+passo 01:
+criação do arquivo index.js
+  
+passo 02:
+//criando uma variável, para acessar o id no HTML 
+const inputItem = document.getElementById("input-item") 
+
+--=============================================================================================================================================================
+--=============================================================================================================================================================
+Aula 02:
+//Fala do addEventListener(), uma função que serve para ficar escutando o usuário faz na página do HTML 
+//O uso do "evento.preventDefault()"
+//Resumo:
+
+//Impede que o navegador execute a ação padrão do evento.
+//Muito usado em formulários para evitar o envio automático e permitir validações ou outras ações personalizadas antes de enviar os dados.
+
+
+passo 03:
+//criando uma variável, para acessar o botão no HTML 
+const botaoAdicionar  = document.getElementById("adicionar-item");
+
+
+
+//criando o evento  addEventListener() para pegar o click no botão
+botaoAdicionar.addEventListener("click" , (evento)=>{
+	evento.preventDefault();
+	
+	
+})
+
+
+// se eu add o console.log(inputItem.value) dentro do addEventListener(), eu consigo pegar o que foi digitado no campo de input 
+
+const inputItem = document.getElementById("input-item") 
+const botaoAdicionar  = document.getElementById("adicionar-item");
+botaoAdicionar.addEventListener("click" , (evento)=>{
+	evento.preventDefault();
+	console.log(inputItem.value);
+	
+})
+
+
+--=============================================================================================================================================================
+--=============================================================================================================================================================
+Aula 03:
+//Construir uma condicional para o caso de ter um item vazio no input
+
+passo 01:
+// construção do if 
+if( inputItem.value === "" ){
+	alert( "Por favor, insira um item" );
+	return;
+}
+
+
+passo02: 
+//continuar com o else para construção do item na lista, temos  que construir as variaves para anexar ao DOOM e assim aparecer no HTML 
+
+// no nosso HTML inicial temos uma <div> e um <li> já pre construído para estilização, agora vamos precisar reconstruir tudo isso no nosso JS para sempre começar com uma lista vazia 
+
+// nosso HTML inicial temos uma <li> ; <div> ; <input> ; e item que vai receber o que vamos digitar no input sera <p> 
+       <li>
+            <div class="lista-item-container">
+              <input type="checkbox" id="checkbox-1" />
+              <p>Ração de gato</p>
+            </div>
+            <p class="texto-data">Segunda-feira (31/10/2022) às 08:30</p>
+          </li>
+
+
+passo03: 
+// iniciando as contruções 
+
+//<li>
+
+const itemDaLista = document.createElement("li");
+
+//<div>
+const containerItemDaLista = document.creatElement("div");
+
+
+// vamos add essa nossa div na classe que já estava criada ( isso pq essa classe já tem toda estilização do css ) 
+containerItemDaLista.classList.add("lista-item-container");
+
+
+
+o arquivo final completo pos essa aula fica assim:
+
+
+const inputItem = document.getElementById("input-item") 
+const botaoAdicionar  = document.getElementById("adicionar-item");
+botaoAdicionar.addEventListener("click" , (evento)=>{
+	evento.preventDefault();
+	
+	if( inputItem.value === "" ){
+	alert( "Por favor, insira um item" );
+	return;
+	}
+	
+	const itemDaLista = document.createElement("li");
+	const containerItemDaLista = document.creatElement("div");
+	containerItemDaLista.classList.add("lista-item-container");
+})
+
+--=============================================================================================================================================================
+--=============================================================================================================================================================
+Aula04 
+
+// Agora vamos construir o input do HTML e add ele no id , o nosso id="checkbox-1" é dinâmico então vamos precisar criar fora do addEventListener um variável para contar cada vez que vamos add um
+//novo elemento na lista com o id dinâmico.  
+
+
+passo01:
+//construção do input ( o checkbox é um tipo de input) 
+const inputCheckbox = document.createElement("input");
+
+passo02:
+//vamos definir o tipo desse input que será checkbox
+inputCheckbox.type = "checkbox";
+
+
+passo03:
+//criando o contador para juntar com o id 
+let contandor = 0 ;
+
+inputCheckbox.id = "checkbox-" + contador++;
+
+
+
+
+--===============================================================
+o arquivo final completo pos essa aula fica assim:
+--===============================================================
+
+
+const inputItem = document.getElementById("input-item") 
+const botaoAdicionar  = document.getElementById("adicionar-item");
+let contandor = 0 ;
+
+botaoAdicionar.addEventListener("click" , (evento)=>{
+	evento.preventDefault();
+	
+	if( inputItem.value === "" ){
+	alert( "Por favor, insira um item" );
+	return;
+	}
+	
+	const itemDaLista = document.createElement("li");
+	const containerItemDaLista = document.creatElement("div");
+	containerItemDaLista.classList.add("lista-item-container");
+
+	const inputCheckbox = document.createElement("input");
+	inputCheckbox.type = "checkbox";
+	inputCheckbox.id = "checkbox-" + contador++;
+})
+
+--=============================================================================================================================================================
+--=============================================================================================================================================================
+Aula05 
+
+// Vamos construir nosso paragrafo <p> que vai receber foi digitado no input 
+//E vamos colocar o elementos um dentro do outro igual esta no nosso HTML, vamos fazer isso usando o método '.appendChild(elementoFilho)';
+       <li>
+            <div class="lista-item-container">
+              <input type="checkbox" id="checkbox-1" />
+              <p>Ração de gato</p>
+            </div>
+            <p class="texto-data">Segunda-feira (31/10/2022) às 08:30</p>
+          </li>
+
+
+
+passo01:
+//construção <p>
+const nomeItem = document.createElement("p");
+
+
+pass02:
+//vamos atribuir o foi digitado ao <p>
+ nomeItem.innertText = inputItem.value ;
+
+
+passo03:
+//vamos colocar o <p> e nosso <input type="checkbox"> construído dentro da nossa <div> construída 
+containerItemDaLista.appendChild(inputCheckbox);
+containerItemDaLista.appendChild(nomeItem);
+
+
+passo04:
+//agora vamos colocar nossa <div> dentro da nossa <li>
+itemDaLista.appendChild(containerItemDaLista);
+
+passo05:
+//criação do elemento <ul> que é fixo então vamos criar fora do addEventListener
+const listaDeCompras = document.getElementById("lista-de-compras");
+
+
+passo06:
+//vamos colocar o elemento <li> dentro do <ul>:
+listaDeCompras.appendChild(itemDaLista)
+
+
+--===============================================================
+o arquivo final completo pos essa aula fica assim:
+--===============================================================
+
+
+const inputItem = document.getElementById("input-item") 
+const listaDeCompras = document.getElementById("lista-de-compras");
+const botaoAdicionar  = document.getElementById("adicionar-item");
+let contandor = 0 ;
+
+botaoAdicionar.addEventListener("click" , (evento)=>{
+	evento.preventDefault();
+	
+	if( inputItem.value === "" ){
+	alert( "Por favor, insira um item" );
+	return;
+	}
+	
+	const itemDaLista = document.createElement("li");
+	const containerItemDaLista = document.creatElement("div");
+	containerItemDaLista.classList.add("lista-item-container");
+
+	const inputCheckbox = document.createElement("input");
+	inputCheckbox.type = "checkbox";
+	inputCheckbox.id = "checkbox-" + contador++;
+
+	const nomeItem = document.createElement("p");
+	nomeItem.innertText = inputItem.value ;	
+	containerItemDaLista.appendChild(inputCheckbox);
+	containerItemDaLista.appendChild(nomeItem);
+	
+	itemDaLista.appendChild(containerItemDaLista);
+
+	listaDeCompras.appendChild(itemDaLista)
+	
+
+})	
+
+
+
+
+
+
+--=============================================================================================================================================================
+--=============================================================================================================================================================
+Aula06
+
+// Vamos construir a data com dia da semana e hora para add junto ao elemento do input
+
+
+passo01:
+//pegar o dia da semana 
+const diaDaSemana = new Date().toLocaleDateString("pt-BR",{
+	weekday: "long";
+})
+
+
+passo02:
+//pegar a data normal dd/mm/aaaa
+const data = new Date().toLocaleDateString("pt-BR");
+
+
+passo03:
+//buscando a hora 
+const hora = new Date().toLocaleTimeString("pt-BR" , {
+	hour: "numeric",
+	minute: "numeric"
+})
+
+
+passo04:
+//Juntando as datas 
+const dataCompleta = `${diaDaSemana} (${data}) às ${hora} `
+
+
+passo05:
+//a data tem ser um elemento para incorporar ao HTML 
+const itemData = document.createElement("p");
+itemData.innerText =  dataCompleta
+
+
+passo06
+//vamos inserir a classe no elemento data 
+itemData.classList.add("texto-data");
+
+
+passo07:
+//vamos add essa data dentro do itemDaLista, por isso a esses campos tem que ser antes de add o itemDaLista na listaDeCompras
+itemDaLista.appendChild( itemData)
+
+
+
+
+--===============================================================
+o arquivo final completo pos essa aula fica assim:
+--===============================================================
+
+
+const inputItem = document.getElementById("input-item") 
+const listaDeCompras = document.getElementById("lista-de-compras");
+const botaoAdicionar  = document.getElementById("adicionar-item");
+let contandor = 0 ;
+
+botaoAdicionar.addEventListener("click" , (evento)=>{
+	evento.preventDefault();
+	
+	if( inputItem.value === "" ){
+	alert( "Por favor, insira um item" );
+	return;
+	}
+	
+	const itemDaLista = document.createElement("li");
+	const containerItemDaLista = document.creatElement("div");
+	containerItemDaLista.classList.add("lista-item-container");
+
+	const inputCheckbox = document.createElement("input");
+	inputCheckbox.type = "checkbox";
+	inputCheckbox.id = "checkbox-" + contador++;
+
+	const nomeItem = document.createElement("p");
+	nomeItem.innertText = inputItem.value ;	
+	containerItemDaLista.appendChild(inputCheckbox);
+	containerItemDaLista.appendChild(nomeItem);
+	
+	const diaDaSemana = new Date().toLocaleDateString("pt-BR",{
+	weekday: "long";
+	})	
+	const data = new Date().toLocaleDateString("pt-BR");
+	const hora = new Date().toLocaleTimeString("pt-BR" , {
+	hour: "numeric",
+	minute: "numeric"	
+	})
+	const dataCompleta = `${diaDaSemana} (${data}) às ${hora} `
+	const itemData = document.createElement("p");
+	itemData.innerText =  dataCompleta
+	itemDaLista.appendChild(itemData)
+
+
+
+	itemDaLista.appendChild(containerItemDaLista);
+
+	listaDeCompras.appendChild(itemDaLista)
+	
+
+})	
+
+
+
+--=============================================================================================================================================================
+--=============================================================================================================================================================
+Aula07
+// riscar o elemento da lista com a checkbox for selecionada 
+// vamos adicionar outro addEventListener, para monitorar quando a caixa de checkbox for selecionada, mudar a decoração do texto
+
+
+passo01:
+//criação 
+inputCheckbox.addEventListener("click", ()=>{
+	if(inputCheckbox.checked){
+		nomeItem.style.texteDecoration = "line-through";
+	}else{
+		nomeItem.style.texteDecoration = "none";
+
+		}
+})
+
+
+
+
+--===============================================================
+o arquivo final completo pos essa aula fica assim:
+--===============================================================
+
+
+const inputItem = document.getElementById("input-item") 
+const listaDeCompras = document.getElementById("lista-de-compras");
+const botaoAdicionar  = document.getElementById("adicionar-item");
+let contandor = 0 ;
+
+botaoAdicionar.addEventListener("click" , (evento)=>{
+	evento.preventDefault();
+	
+	if( inputItem.value === "" ){
+	alert( "Por favor, insira um item" );
+	return;
+	}
+	
+	const itemDaLista = document.createElement("li");
+	const containerItemDaLista = document.creatElement("div");
+	containerItemDaLista.classList.add("lista-item-container");
+
+	const inputCheckbox = document.createElement("input");
+	inputCheckbox.type = "checkbox";
+	inputCheckbox.id = "checkbox-" + contador++;
+
+	const nomeItem = document.createElement("p");
+	nomeItem.innertText = inputItem.value ;	
+
+	
+	inputCheckbox.addEventListener("click", ()=>{
+		if(inputCheckbox.checked){
+			nomeItem.style.texteDecoration = "line-through";
+		}else{
+			nomeItem.style.texteDecoration = "none";
+
+		}
+	});
+
+
+
+	containerItemDaLista.appendChild(inputCheckbox);
+	containerItemDaLista.appendChild(nomeItem);
+	
+	const diaDaSemana = new Date().toLocaleDateString("pt-BR",{
+	weekday: "long";
+	})	
+	const data = new Date().toLocaleDateString("pt-BR");
+	const hora = new Date().toLocaleTimeString("pt-BR" , {
+	hour: "numeric",
+	minute: "numeric"	
+	})
+	const dataCompleta = `${diaDaSemana} (${data}) às ${hora} `
+	const itemData = document.createElement("p");
+	itemData.innerText =  dataCompleta
+	itemDaLista.appendChild(itemData)
+
+
+
+	itemDaLista.appendChild(containerItemDaLista);
+
+	listaDeCompras.appendChild(itemDaLista)
+	
+
+})	
+
+
+
+
+--=============================================================================================================================================================
+--=============================================================================================================================================================
+Aula08
+// agora vamos preparar o arquivo para quando a lista estiver vazia 
+//vamos criar um <p> dentro do HTML, depois no JS vamos acessar esse <p>
+//depois temos que fazer uma função para validar se temos item na lista ou não tem dois momentos para isso
+// primeiro momento e na hora de carregar o HTML então essa função vai ficar fora do addEventListener 
+//segundo momento dentro do addEventListener para quando add o elemento na lista. 
+
+
+
+passo01:
+//vai ser remover do Html todo <li> e quem estiver como filho dele
+// assim o html carrega sem nenhum item da lista 
+
+
+
+passo02:
+//dentro do HTML colocar um paragrafo 
+<p class="mensagem-lista-vazia">Não nenhum um item na lista</p>
+
+
+passo03:
+//criar a variável para acessar <p> com a msg da lista vazia 
+const mensagemListaVazia = document.querySelector(".mensagem-lista-vazia");
+
+
+passo04:
+//vamos cria a função para saber se a lista esta vazia ou não 
+function verificarListaVazia(){
+	const itensDaListaVazia = listaDeCompras.querySelectorAll("li");
+	
+	if(itensDaListaVazia.length === 0){
+		mensagemListaVazia.style.display = "block";
+	} else{
+		mensagemListaVazia.style.display = "none";
+
+		}
+}
+
+passo05: 
+//vamos posicionar a função dentro e fora do addEventListener
+
+verificarListaVazia();
+verificarListaVazia();
+
+
+
+
+--===============================================================
+o arquivo final completo pos essa aula fica assim:
+--===============================================================
+
+
+const inputItem = document.getElementById("input-item") 
+const listaDeCompras = document.getElementById("lista-de-compras");
+const botaoAdicionar  = document.getElementById("adicionar-item");
+let contandor = 0 ;
+
+botaoAdicionar.addEventListener("click" , (evento)=>{
+	evento.preventDefault();
+	
+	if( inputItem.value === "" ){
+	alert( "Por favor, insira um item" );
+	return;
+	}
+	
+	const itemDaLista = document.createElement("li");
+	const containerItemDaLista = document.creatElement("div");
+	containerItemDaLista.classList.add("lista-item-container");
+
+	const inputCheckbox = document.createElement("input");
+	inputCheckbox.type = "checkbox";
+	inputCheckbox.id = "checkbox-" + contador++;
+
+	const nomeItem = document.createElement("p");
+	nomeItem.innertText = inputItem.value ;	
+
+	
+	inputCheckbox.addEventListener("click", ()=>{
+		if(inputCheckbox.checked){
+			nomeItem.style.texteDecoration = "line-through";
+		}else{
+			nomeItem.style.texteDecoration = "none";
+
+		}
+	});
+
+
+
+	containerItemDaLista.appendChild(inputCheckbox);
+	containerItemDaLista.appendChild(nomeItem);
+	
+	const diaDaSemana = new Date().toLocaleDateString("pt-BR",{
+	weekday: "long";
+	})	
+	const data = new Date().toLocaleDateString("pt-BR");
+	const hora = new Date().toLocaleTimeString("pt-BR" , {
+	hour: "numeric",
+	minute: "numeric"	
+	})
+	const dataCompleta = `${diaDaSemana} (${data}) às ${hora} `
+	const itemData = document.createElement("p");
+	itemData.innerText =  dataCompleta
+	itemDaLista.appendChild(itemData)
+
+
+
+	itemDaLista.appendChild(containerItemDaLista);
+
+	listaDeCompras.appendChild(itemDaLista)
+	
+	verificarListaVazia();
+});
+
+const mensagemListaVazia = document.querySelector(".mensagem-lista-vazia");
+
+function verificarListaVazia(){
+	const itensDaListaVazia = listaDeCompras.querySelectorAll("li");
+	
+	if(itensDaListaVazia.length === 0){
+		mensagemListaVazia.style.display = "block";
+	} else{
+		mensagemListaVazia.style.display = "none";
+
+		}
+}
+
+verificarListaVazia();
+
